@@ -1,11 +1,9 @@
 package com.onedaytrip
 
 import akka.actor.ActorSystem
-import akka.testkit.{TestActors, ImplicitSender, TestKit}
+import akka.testkit.{ImplicitSender, TestActors, TestKit}
 //import org.specs2.matcher.Matchers
-import org.scalatest.WordSpecLike
-import org.scalatest.Matchers
-import org.scalatest.BeforeAndAfterAll
+import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
 
 /**
  * Created by tomek on 7/11/15.

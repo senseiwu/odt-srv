@@ -1,8 +1,8 @@
 package com.onedaytrip.service
 
-import akka.actor.{Props, ActorRef, Actor}
+import akka.actor.{Actor, ActorRef, Props}
 import akka.event.Logging
-import com.onedaytrip.domain.{OdtResponse, OdtRequest}
+import com.onedaytrip.domain.{OdtRequest, OdtResponse}
 
 /**
  * Created by tomek on 7/10/15.

@@ -1,6 +1,5 @@
 package com.onedaytrip.service
 
-import com.onedaytrip.service.MyJsonProtocol._
 import spray.json.DefaultJsonProtocol
 
 /**

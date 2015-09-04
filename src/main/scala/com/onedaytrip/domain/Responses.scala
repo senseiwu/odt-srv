@@ -1,7 +1,6 @@
 package com.onedaytrip.domain
 
 import com.mongodb.casbah.Imports._
-import com.mongodb.casbah.commons.MongoDBObject
 import spray.json.DefaultJsonProtocol
 
 /**
@@ -54,19 +53,13 @@ object Coordinate {
   }
 }
 
-case class UserProfile(name:String, age:Int, gender:Char, about:String)
-case class UserStatus(name:String, status:Int) extends OdtResponse
-case class SearchResult(users:List[UserProfile]) extends OdtResponse
 case class Version(v:String)
 case class NotImplementedYet(msg:String) extends OdtResponse
-case class Error(msg:String)
-case class Fine(msg:String) extends OdtResponse
 case class Topics(topics:List[String])
 
 object JsonImplicits extends DefaultJsonProtocol {
   implicit val topics = jsonFormat1(Topics)
   implicit val version = jsonFormat1(Version)
-  implicit val user = jsonFormat2(UserLogin)
   implicit val niy = jsonFormat1(NotImplementedYet)
 }
 

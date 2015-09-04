@@ -1,6 +1,4 @@
-import java.math.BigDecimal
 
-import com.onedaytrip.domain.Coordinate
 
 //
 //import java.sql.Date

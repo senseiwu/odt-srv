@@ -1,7 +1,7 @@
 package com.onedaytrip.db
 
 import com.mongodb.casbah.Imports._
-import com.onedaytrip.db.poi.{shop, common}
+import com.onedaytrip.db.poi.{common, shop}
 
 /**
  * Created by tomek on 8/31/15.

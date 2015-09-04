@@ -1,12 +1,8 @@
 package com.onedaytrip.dao
 
-import akka.actor.Actor
-import akka.event.Logging
 import com.mongodb.casbah.Imports._
-
 import com.onedaytrip.db.Mongo
 import com.onedaytrip.domain._
-import com.onedaytrip.service.TripService.GetTrips
 
 
 /**

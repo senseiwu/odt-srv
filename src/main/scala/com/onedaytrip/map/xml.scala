@@ -4,10 +4,11 @@ package com.onedaytrip.map
  * Created by tomek on 7/26/15.
  */
 
-import java.io.{FileInputStream, InputStream}
+import java.io.InputStream
 import java.util
+
 import com.thoughtworks.xstream.XStream
-import com.thoughtworks.xstream.io.xml.{StaxDriver}
+import com.thoughtworks.xstream.io.xml.StaxDriver
 
 
 object osm {

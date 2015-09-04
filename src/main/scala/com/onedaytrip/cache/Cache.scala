@@ -1,6 +1,7 @@
 package com.onedaytrip.cache
 
-import com.google.common.cache.{CacheLoader => GCacheLoader, LoadingCache, CacheBuilder}
+import com.google.common.cache.{CacheBuilder, CacheLoader => GCacheLoader}
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 

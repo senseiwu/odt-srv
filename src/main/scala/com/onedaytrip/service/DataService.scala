@@ -1,13 +1,11 @@
 package com.onedaytrip.service
 
-import akka.actor.{Props, Actor}
+import akka.actor.{Actor, Props}
 import akka.event.Logging
-import com.mongodb.casbah.{MongoCursor, MongoClient}
-import com.onedaytrip.ServiceRequest
+import com.mongodb.casbah.{MongoClient, MongoCursor}
 import com.onedaytrip.config.Configuration
 import com.onedaytrip.db.Mongo
-import com.onedaytrip.domain.{Topic, OdtRequest, NotImplementedYet}
-import com.onedaytrip.service.DataService.{TopicQuery, PoiQuery}
+import com.onedaytrip.domain._
 
 /**
  * Created by tomek on 9/3/15.
@@ -20,25 +18,23 @@ class QueryService extends Actor with Configuration {
   def topicCol = mongo.collection(topicCollection.toString)
 
   override def receive: Receive = {
-    case Topic(_,_) => {
-      log.debug("PoiQUery done")
-      sender ! RequestHandler.Done(NotImplementedYet("PoiQuery - done!"))
+    case TopicRequest() => {
+      log.debug("Topic request done")
+      sender ! RequestHandler.Done(NotImplementedYet("Topic - done!"))
     }
   }
 }
 
 object DataService {
-  case class PoiQuery()
-  case class TopicQuery(odtRequest: OdtRequest) extends ServiceRequest
   case class Done(cursor:MongoCursor)
 }
 
 class DataService extends Actor with RequestHandler {
-
   override def waiting: Receive = {
-     case TopicQuery(req) => {
-       log.debug("DataService")
+     case DataRequest(req) => {
+       log.debug("DataService request received - " + req)
        context.become(runNext(Vector(Job(sender, Props[QueryService], req))))
      }
+     case _ => log.error("")
   }
 }

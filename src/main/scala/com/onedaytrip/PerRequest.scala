@@ -3,9 +3,6 @@ package com.onedaytrip
 import akka.actor.{Actor, ActorRef, ReceiveTimeout}
 import akka.event.Logging
 import com.onedaytrip.domain._
-import com.onedaytrip.service.DataService.TopicQuery
-import com.onedaytrip.service.TripService.{GetTrips}
-import com.onedaytrip.service.UserService.{Search, Notification, Auth}
 import org.json4s.DefaultFormats
 import spray.http.StatusCode
 import spray.http.StatusCodes._
@@ -17,8 +14,6 @@ import scala.concurrent.duration._
 /**
  * Created by tomek on 6/11/15.
  */
-
-trait ServiceRequest
 
 //TODO: add list, or counter for responses in case of more then one actor will response
 trait PerRequest extends Actor with Json4sSupport {
@@ -51,18 +46,15 @@ trait PerRequest extends Actor with Json4sSupport {
 }
 
 // TODO: use it instaed of ActorRef as targets
-case class TargetSvc(responsive:Boolean, actorRef: ActorRef)
+//case class TargetSvc(responsive:Boolean, actorRef: ActorRef)
 
 // This construction provides specific type of request, which will be send to many targets
 object PerRequest {
-  case class AuthRequest(ctx: RequestContext, targets: List[ActorRef], message:OdtRequest) extends PerRequest {
-    override def composeMessage = Auth(message)
+  case class TripRequestHandler(ctx: RequestContext, targets: List[ActorRef], message:OdtRequest) extends PerRequest {
+    override def composeMessage = TripRequest(message)
   }
-  case class NotifyRequest(ctx: RequestContext, targets: List[ActorRef], message:OdtRequest) extends PerRequest {
-    override def composeMessage = Notification(message)
-  }
-  case class TripRequest(ctx: RequestContext, targets: List[ActorRef], message:OdtRequest) extends PerRequest {
-    override def composeMessage = TopicQuery(message)
+  case class DataRequestHandler(ctx: RequestContext, targets: List[ActorRef], message:OdtRequest) extends PerRequest {
+    override def composeMessage = DataRequest(message)
   }
 
 }

@@ -11,16 +11,17 @@ import akka.io.IO
 import akka.pattern.ask
 import akka.util.Timeout
 import spray.can.Http
-import spray.http.HttpHeaders.Accept
-import spray.http._
-import spray.http.MediaTypes.`application/json`
-import spray.httpx.SprayJsonSupport._
 import spray.client.pipelining._
+import spray.http.HttpHeaders.Accept
+import spray.http.MediaTypes.`application/json`
+import spray.http._
+import spray.httpx.SprayJsonSupport._
 import spray.httpx.encoding.{Deflate, Gzip}
 import spray.json.DefaultJsonProtocol
+
 import scala.concurrent.Future
-import scala.util.{Failure, Success}
 import scala.concurrent.duration._
+import scala.util.{Failure, Success}
 
 object Main extends App {
   implicit val system = ActorSystem()

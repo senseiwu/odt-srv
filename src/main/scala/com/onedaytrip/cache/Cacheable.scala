@@ -1,7 +1,5 @@
 package com.onedaytrip.cache
 
-import com.google.common.cache.CacheLoader
-
 import scala.concurrent.Future
 
 

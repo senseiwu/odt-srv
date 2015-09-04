@@ -1,6 +1,5 @@
 package com.onedaytrip.dao
 
-import com.google.common.cache.CacheBuilder
 import com.onedaytrip.db.Db.users
 
 import scala.concurrent.Future

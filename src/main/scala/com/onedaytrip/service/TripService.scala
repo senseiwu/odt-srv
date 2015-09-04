@@ -1,15 +1,13 @@
 package com.onedaytrip.service
 
-import akka.actor.{ActorRef, Actor, Props}
+import akka.actor.{Actor, ActorRef, Props}
 import akka.event.Logging
-import com.onedaytrip.ServiceRequest
 import com.onedaytrip.dao.TripDao
 import com.onedaytrip.domain._
 import com.onedaytrip.map.route
-import com.onedaytrip.service.ComposeTrip.Done
 import com.onedaytrip.service.TripService._
+
 import scala.collection.immutable.IndexedSeq
-import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
  * Created by tomek on 8/22/15.
