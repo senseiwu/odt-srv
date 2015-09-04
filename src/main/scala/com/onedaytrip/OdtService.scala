@@ -7,7 +7,7 @@ import com.onedaytrip.PerRequest.{TripRequest, AuthRequest}
 import com.onedaytrip.db.poi.{shop, leisure, amenity}
 import com.onedaytrip.db.{SillyDbPopulator, Db}
 import com.onedaytrip.domain._
-import com.onedaytrip.service.{TripService, StatisticService, UserService}
+import com.onedaytrip.service.{DataService, TripService, StatisticService, UserService}
 import spray.http.MediaTypes
 import spray.httpx.SprayJsonSupport._
 import spray.routing.{HttpService, Route}
@@ -42,6 +42,8 @@ trait OdtService extends HttpService with SLF4JLogging {
   val tripCreator = context.actorOf(Props[TripService])
   val userAuth = context.actorOf(Props[UserService])
   val statisticSvc = context.actorOf(Props[StatisticService])
+  val dataSvc = context.actorOf(Props[DataService])
+
   val dbpop = new SillyDbPopulator
 
   //val indexPageRoute: Route = pathPrefix("") { getFromDirectory("src/main/webapp") }
@@ -50,7 +52,8 @@ trait OdtService extends HttpService with SLF4JLogging {
     import JsonImplicits._
     pathPrefix("topic") {
       path("all") {
-        complete(NotImplementedYet("all topics NA"))
+        ctx => context.actorOf(Props(new TripRequest(ctx, List(dataSvc), Topic(1, "shop"))))
+        //complete(NotImplementedYet("all topics NA"))
       } ~ path("subtopics") {
         complete(NotImplementedYet("subtopics NA"))
       } ~ path("map") {
@@ -115,50 +118,19 @@ trait OdtService extends HttpService with SLF4JLogging {
       path("version") {
         complete(Version("1.0.0"))
       } ~
-      path("topics") {
-        complete(Topics(List(leisure.ValPark, shop.Key)))
-      } ~
-      path("trips") {
-        parameters('startPointName.as[String] ?, 'coordinates.as[String] ?, 'activeness.as[String] ?,
-          'topics.as[String] ?, 'budget.as[String] ?).as(TripRequestParams) {
-          tripReq:TripRequestParams => {
-            ctx => context.actorOf(Props(new TripRequest(ctx, List(tripCreator), tripReq)))
-          }
-          //tripRqst:TripRequestParams => reqstHndlr(tripRqst, tripCreator)
-        }
-      } ~
-      path("login") {
-        parameters('name.as[String] ?, 'password.as[String] ?).as(UserLogin) {
-          user:UserLogin => {
-            ctx => context.actorOf(Props(new AuthRequest(ctx, List(userAuth, statisticSvc), user)))
+        path("topics") {
+          complete(Topics(List(leisure.ValPark, shop.Key)))
+        } ~
+        path("trips") {
+          parameters('startPointName.as[String] ?, 'coordinates.as[String] ?, 'activeness.as[String] ?,
+            'topics.as[String] ?, 'budget.as[String] ?).as(TripRequestParams) {
+            tripReq: TripRequestParams => {
+              ctx => context.actorOf(Props(new TripRequest(ctx, List(tripCreator), tripReq)))
+            }
           }
         }
-      } ~
-      path("signin") {
-        parameters('name.as[String] ?, 'password1.as[String] ?, 'password2.as[String] ?).as(UserSignIn) {
-          user:UserSignIn => {
-            ctx => context.actorOf(Props(new AuthRequest(ctx, List(userAuth), user)))
-          }
-        }
-      } ~
-      path("chat") {
-        parameter('uid.as[Int] ?, 'text.as[String] ?).as(Chat) {
-          chat:Chat => reqstHndlr(chat, userAuth)
-        }
-      } ~
-      path("search") {
-        parameter('gender.as[Int] ?, 'age.as[Int] ?).as(SearchUsers) {
-          search:SearchUsers => reqstHndlr(search, userAuth)
-        }
-      }
-    } ~
-    post {
-      path("loginasync") {
-        entity(as[UserLogin]) {
-          user:UserLogin => reqstHndlr(user, userAuth)
-        }
-      }
     }
+
   }
 
   def reqstHndlr(message: OdtRequest, actor:ActorRef):Route =
@@ -166,3 +138,37 @@ trait OdtService extends HttpService with SLF4JLogging {
     ctx => context.actorOf(Props(new AuthRequest(ctx, List(userAuth), message)))
 
 }
+
+//      ~
+//      path("login") {
+//        parameters('name.as[String] ?, 'password.as[String] ?).as(UserLogin) {
+//          user:UserLogin => {
+//            ctx => context.actorOf(Props(new AuthRequest(ctx, List(userAuth, statisticSvc), user)))
+//          }
+//        }
+//      } ~
+//      path("signin") {
+//        parameters('name.as[String] ?, 'password1.as[String] ?, 'password2.as[String] ?).as(UserSignIn) {
+//          user:UserSignIn => {
+//            ctx => context.actorOf(Props(new AuthRequest(ctx, List(userAuth), user)))
+//          }
+//        }
+//      } ~
+//      path("chat") {
+//        parameter('uid.as[Int] ?, 'text.as[String] ?).as(Chat) {
+//          chat:Chat => reqstHndlr(chat, userAuth)
+//        }
+//      } ~
+//      path("search") {
+//        parameter('gender.as[Int] ?, 'age.as[Int] ?).as(SearchUsers) {
+//          search:SearchUsers => reqstHndlr(search, userAuth)
+//        }
+//      }
+//    } ~
+//    post {
+//      path("loginasync") {
+//        entity(as[UserLogin]) {
+//          user:UserLogin => reqstHndlr(user, userAuth)
+//        }
+//      }
+//    }

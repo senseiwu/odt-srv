@@ -56,8 +56,8 @@ class AuthSvc extends Actor {
 class NotificationSvc extends Actor {
   val log = Logging(context.system, "NotificationSvc")
   override def receive: Actor.Receive = {
-    case Chat(uid, text) => {
-      log.debug("Chat to usedID: {} text: {}", uid, text)
+    case NotImplementedYet(text) => {
+      log.debug("Chat to usedID: {} text: {}", "", text)
       sender ! Fine("Chat stored successfully")
     }
   }

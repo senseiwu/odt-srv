@@ -58,7 +58,7 @@ case class UserProfile(name:String, age:Int, gender:Char, about:String)
 case class UserStatus(name:String, status:Int) extends OdtResponse
 case class SearchResult(users:List[UserProfile]) extends OdtResponse
 case class Version(v:String)
-case class NotImplementedYet(msg:String)
+case class NotImplementedYet(msg:String) extends OdtResponse
 case class Error(msg:String)
 case class Fine(msg:String) extends OdtResponse
 case class Topics(topics:List[String])

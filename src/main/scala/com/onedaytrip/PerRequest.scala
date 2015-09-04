@@ -3,6 +3,7 @@ package com.onedaytrip
 import akka.actor.{Actor, ActorRef, ReceiveTimeout}
 import akka.event.Logging
 import com.onedaytrip.domain._
+import com.onedaytrip.service.DataService.TopicQuery
 import com.onedaytrip.service.TripService.{GetTrips}
 import com.onedaytrip.service.UserService.{Search, Notification, Auth}
 import org.json4s.DefaultFormats
@@ -61,7 +62,7 @@ object PerRequest {
     override def composeMessage = Notification(message)
   }
   case class TripRequest(ctx: RequestContext, targets: List[ActorRef], message:OdtRequest) extends PerRequest {
-    override def composeMessage = GetTrips(message)
+    override def composeMessage = TopicQuery(message)
   }
 
 }

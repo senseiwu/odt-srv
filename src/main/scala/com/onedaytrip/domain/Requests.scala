@@ -12,23 +12,10 @@ import com.onedaytrip.db.poi.{shop, leisure}
 trait OdtRequest
 
 case class TripRequestParams(startPointName: String, coordinates: String, activeness: String, topics: String, budget: String) extends OdtRequest
-
 case class UserLogin(name: String, password: String) extends OdtRequest
-
 case class UserSignIn(name: String, password1: String, password2: String) extends OdtRequest
-
-case class Chat(uid: Long, text: String) extends OdtRequest
-
-case class Like(uid: Long) extends OdtRequest
-
-case class Unlike(uid: Long) extends OdtRequest
-
-case class SearchUsers(gender: Int, age: Int) extends OdtRequest
-
 case class Activity(uid: Long, name: String = "") extends OdtRequest
-
 case class Topic(uid: Long, name: String = "") extends OdtRequest
-
 case class Budget(from: Float = 0, to: Float = 0, currency: Currency = Currency.getInstance("CNY"))
 
 object Activity {
