@@ -25,12 +25,11 @@ class QueryService extends Actor with Configuration {
   def topicCol = mongo.collection(topicCollection.get)
 
   override def receive: Receive = {
-    case TopicRequest() => queryAll(sender)
-    case TopicMapRequest() => sender ! ???
-    case TopicSubtopicRequest(topic) => sender ! ???
+    case TopicRequest() => queryTopicsAll(sender)
+    case PoiRequest(coordinate: Coordinate, topics: List[String], range: Int) => ???
   }
 
-  def queryAll(target:ActorRef) = {
+  def queryTopicsAll(target:ActorRef) = {
     lazy val f = Future {
       TopicResponse(topicCol.find())
     }

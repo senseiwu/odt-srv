@@ -43,16 +43,7 @@ trait OdtService extends HttpService with SLF4JLogging {
     pathPrefix("topic") {
       path("all") {
         ctx => context.actorOf(Props(new DataRequestHandler(ctx, List(dataSvc), TopicRequest())))
-      } ~ path("subtopics") {
-            parameters('topic.as[String] ?).as(TopicSubtopicRequest) {
-                  subtopicRqst:TopicSubtopicRequest => {
-                    ctx => context.actorOf(Props(new DataRequestHandler(ctx, List(dataSvc), subtopicRqst)))
-                  }
-            }
-      } ~ path("map") {
-        ctx => context.actorOf(Props(new DataRequestHandler(ctx, List(dataSvc), TopicMapRequest())))
       }
-
     }
   }
 
@@ -76,7 +67,7 @@ trait OdtService extends HttpService with SLF4JLogging {
         }
       } ~ path("country") {
         pathEnd {
-          complete("kjsdfh")
+          complete(NotImplementedYet("poi/country/"))
         }
       }
     }

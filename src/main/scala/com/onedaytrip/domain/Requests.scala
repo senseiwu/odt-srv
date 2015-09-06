@@ -16,8 +16,7 @@ case class Topic(uid: Long, name: String = "") extends OdtRequest
 case class Budget(from: Float = 0, to: Float = 0, currency: Currency = Currency.getInstance("CNY"))
 
 case class TopicRequest() extends OdtRequest
-case class TopicMapRequest() extends OdtRequest
-case class TopicSubtopicRequest(topic:String) extends OdtRequest
+case class PoiRequest(coordinate: Coordinate, topics: List[String], range: Int)
 
 object Activity {
   val L = "L"

@@ -28,7 +28,6 @@ object Attraction {
 
 // Responses
 trait OdtResponse
-//case class Response(mongoObj:String) extends OdtResponse
 case class Trips(trips:List[Trip]) extends OdtResponse
 
 object Point {
@@ -70,9 +69,7 @@ object TopicResponse {
       val tts = ArrayBuffer[String]()
       val name = topic.getAs[String]("topic")
       val subjects = topic.get("subtopics")
-      for(subject <- subjects.asInstanceOf[BasicDBList]) {
-        tts += subject.toString
-      }
+      for(subject <- subjects.asInstanceOf[BasicDBList]) tts += subject.toString
       tt += TopicItem(name.get, tts.toList)
     }
     new TopicResponse(tt.toList)
@@ -83,7 +80,6 @@ object JsonImplicits extends DefaultJsonProtocol {
   implicit val topics = jsonFormat1(Topics)
   implicit val version = jsonFormat1(Version)
   implicit val niy = jsonFormat1(NotImplementedYet)
-  //implicit val response = jsonFormat1(Response)
 }
 
 class Restaurant(name:String, eachPersonCost:Double , coordinate: Coordinate,lat: Double, lon: Double) extends Point(3,lat,lon)
