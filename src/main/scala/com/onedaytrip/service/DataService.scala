@@ -5,6 +5,7 @@ import akka.event.Logging
 import com.mongodb.casbah.Imports._
 import com.mongodb.util.JSON
 import com.onedaytrip.config.Configuration
+import com.onedaytrip.dao.TripDao
 import com.onedaytrip.db.Mongo
 import com.onedaytrip.domain._
 
@@ -26,7 +27,9 @@ class QueryService extends Actor with Configuration {
 
   override def receive: Receive = {
     case TopicRequest() => queryTopicsAll(sender)
-    case PoiRequest(coordinate: Coordinate, topics: List[String], range: Int) => ???
+    case PoiRequest(coordinate: Coordinate, topics: List[String], range: Int) =>
+      val dao = new TripDao
+      dao.query(coordinate, range, topics)
   }
 
   def queryTopicsAll(target:ActorRef) = {

@@ -17,12 +17,12 @@ class TripDao extends Configuration {
   val col = mongo.collection(poiCollection.get)
   col.createIndex(MongoDBObject("loc" -> "2d"))
 
-  def query(loc:Coordinate, range:Int, topics:List[Topic]): List[Attraction] = {
-    def queryTopic(loc:Coordinate, range:Int, topics:List[Topic]): List[List[Attraction]] = topics match {
+  def query(loc:Coordinate, range:Int, topics:List[String]): List[Attraction] = {
+    def queryTopic(loc:Coordinate, range:Int, topics:List[String]): List[List[Attraction]] = topics match {
       case List() => Nil
       case head :: tail =>
-        println("TOPIC: " + head.name)
-        val ll = parse(mongo.findNear(col, head.name, loc.lat, loc.lon, range))
+        println("TOPIC: " + head)
+        val ll = parse(mongo.findNear(col, head, loc.lat, loc.lon, range))
         ll :: queryTopic(loc, range, tail)
     }
 

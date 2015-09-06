@@ -49,14 +49,14 @@ object Topic {
 }
 
 
-case class DTripRequest(startPoint: Coordinate, endpoint: Coordinate, activeness: Activity, topics: List[Topic], budget: Budget = null) extends OdtRequest
+case class DTripRequest(startPoint: Coordinate, endpoint: Coordinate, activeness: Activity, topics: List[String], budget: Budget = null) extends OdtRequest
 
 object DTripRequest {
   def apply(request: OdtRequest) :DTripRequest = {
     request match {
       case TripRequestParams(startPointName: String, coordinates: String, activeness: String, topics: String, budget: String) =>
         println("TripRequestParams ---")
-        DTripRequest(Coordinate(coordinates),null, Activity(activeness),topics.split(",").map(Topic(_)).toList,null)
+        DTripRequest(Coordinate(coordinates),null, Activity(activeness),topics.split(",").toList,null)
       case _ =>
         println("Exception!!! ---")
         throw new IllegalArgumentException("Can not identify the params")
