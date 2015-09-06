@@ -3,6 +3,8 @@ package com.onedaytrip.domain
 import com.mongodb.casbah.Imports._
 import spray.json.DefaultJsonProtocol
 
+import scala.collection.mutable.ArrayBuffer
+
 /**
  * Created by tomek on 7/7/15.
  */
@@ -26,7 +28,7 @@ object Attraction {
 
 // Responses
 trait OdtResponse
-case class Response(mongoObj:String) extends OdtResponse
+//case class Response(mongoObj:String) extends OdtResponse
 case class Trips(trips:List[Trip]) extends OdtResponse
 
 object Point {
@@ -57,11 +59,31 @@ case class Version(v:String)
 case class NotImplementedYet(msg:String) extends OdtResponse
 case class Topics(topics:List[String])
 
+case class TopicItem(topic:String, subtopics:List[String])
+case class TopicResponse(topics:List[TopicItem]) extends OdtResponse
+
+object TopicResponse {
+  def apply():TopicResponse = new TopicResponse(List())
+  def apply(topics:MongoCursor):TopicResponse = {
+    val tt = ArrayBuffer[TopicItem]()
+    for(topic <- topics) {
+      val tts = ArrayBuffer[String]()
+      val name = topic.getAs[String]("topic")
+      val subjects = topic.get("subtopics")
+      for(subject <- subjects.asInstanceOf[BasicDBList]) {
+        tts += subject.toString
+      }
+      tt += TopicItem(name.get, tts.toList)
+    }
+    new TopicResponse(tt.toList)
+  }
+}
+
 object JsonImplicits extends DefaultJsonProtocol {
   implicit val topics = jsonFormat1(Topics)
   implicit val version = jsonFormat1(Version)
   implicit val niy = jsonFormat1(NotImplementedYet)
-  implicit val response = jsonFormat1(Response)
+  //implicit val response = jsonFormat1(Response)
 }
 
 class Restaurant(name:String, eachPersonCost:Double , coordinate: Coordinate,lat: Double, lon: Double) extends Point(3,lat,lon)

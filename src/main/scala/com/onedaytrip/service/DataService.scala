@@ -8,6 +8,7 @@ import com.onedaytrip.config.Configuration
 import com.onedaytrip.db.Mongo
 import com.onedaytrip.domain._
 
+import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
 
@@ -30,23 +31,13 @@ class QueryService extends Actor with Configuration {
   }
 
   def queryAll(target:ActorRef) = {
-    val f = Future {
-      val topics = topicCol.findOne("topics" $exists true )
-      if(topics.isDefined) {
-        log.debug("All topics: " + topics.get)
-//        val obj1 = MongoDBObject("topic" -> "amenity", "subtopics" -> MongoDBList("a","b","c"))
-//        val obj2 = MongoDBObject("topic" -> "park", "subtopics" -> MongoDBList("aa","bb","cc"))
-//        val obj3 = MongoDBObject("topic" -> "history", "subtopics" -> MongoDBList("aaa","bbb","ccc"))
-//        val list = MongoDBList(obj1, obj2, obj3)
-//        MongoDBObject("topics" -> "skfhj")
-        topics.get
-      }
-      else MongoDBObject()
+    lazy val f = Future {
+      TopicResponse(topicCol.find())
     }
-    import JsonImplicits._
+
     f onComplete {
-      case Success(obj) => target ! RequestHandler.Done(Response(obj.toString))
-      case Failure(e) => target ! RequestHandler.Done(Response(MongoDBObject("error" -> e).toString))
+      case Success(obj:TopicResponse) => target ! RequestHandler.Done(obj)
+      case Failure(e) => target ! RequestHandler.Done(TopicResponse())
     }
   }
 }

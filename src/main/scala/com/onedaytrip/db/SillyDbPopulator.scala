@@ -21,8 +21,11 @@ class SillyDbPopulator extends Configuration {
   val obj1 = MongoDBObject("topic" -> "amenity", "subtopics" -> MongoDBList("a","b","c"))
   val obj2 = MongoDBObject("topic" -> "park", "subtopics" -> MongoDBList("aa","bb","cc"))
   val obj3 = MongoDBObject("topic" -> "history", "subtopics" -> MongoDBList("aaa","bbb","ccc"))
-  val list = MongoDBList(obj1, obj2, obj3)
-  topicCol.insert(MongoDBObject("topics" -> list))
+  //val list = MongoDBList(obj1, obj2, obj3)
+  //topicCol.insert(MongoDBObject("topics" -> list))
+  topicCol.insert(obj1)
+  topicCol.insert(obj2)
+  topicCol.insert(obj3)
 
   val PARKIMG = "http://www.tapeciarnia.pl/tapety/normalne/87536_park_laweczka_drogowskaz_grafika.jpg"
 
