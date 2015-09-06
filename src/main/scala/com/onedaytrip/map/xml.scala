@@ -114,6 +114,6 @@ object osm {
   }
 }
 
-object Applic extends App {
-  osm.downloadOsm("krk", 50.05, 50.08, 19.88, 19.98)
-}
+//object Applic extends App {
+//  osm.downloadOsm("krk", 50.05, 50.08, 19.88, 19.98)
+//}
