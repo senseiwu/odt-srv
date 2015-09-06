@@ -82,6 +82,6 @@ trait OdtService extends HttpService with SLF4JLogging {
     }
   }
 
-  val routing = topicRoute ~ poiRoute
+  val routing = topicRoute ~ poiRoute ~ tripRoute ~ appRoute
 
 }

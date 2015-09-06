@@ -26,7 +26,7 @@ object Attraction {
 
 // Responses
 trait OdtResponse
-case class Response(mongoObj:List[DBObject]) extends OdtResponse
+case class Response(mongoObj:String) extends OdtResponse
 case class Trips(trips:List[Trip]) extends OdtResponse
 
 object Point {
@@ -61,6 +61,7 @@ object JsonImplicits extends DefaultJsonProtocol {
   implicit val topics = jsonFormat1(Topics)
   implicit val version = jsonFormat1(Version)
   implicit val niy = jsonFormat1(NotImplementedYet)
+  implicit val response = jsonFormat1(Response)
 }
 
 class Restaurant(name:String, eachPersonCost:Double , coordinate: Coordinate,lat: Double, lon: Double) extends Point(3,lat,lon)

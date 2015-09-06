@@ -37,7 +37,6 @@ trait PerRequest extends Actor with Json4sSupport {
   }
 
   def complete[T <: AnyRef](status: StatusCode, obj: T) = {
-    log.debug("complete " + obj)
     ctx.complete(status, obj)
     stop(self)
   }

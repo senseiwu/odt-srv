@@ -1,20 +1,28 @@
 package com.onedaytrip.db
 
 import com.mongodb.casbah.Imports._
+import com.onedaytrip.config.Configuration
 import com.onedaytrip.db.poi._
 
 /**
  * Created by tomek on 8/30/15.
  */
-class SillyDbPopulator {
+class SillyDbPopulator extends Configuration {
 
-  val mongo = Mongo(MongoClient(), "poi")
+  val mongo = Mongo(MongoClient(), mongoDb.get)
   val db = mongo.getdb
   db.dropDatabase()
-  val col = mongo.collection(common.Key)
+  val col = mongo.collection(poiCollection.get)
+  val topicCol = mongo.collection(topicCollection.get)
   col.createIndex(MongoDBObject("loc" -> "2d"))
 
   val sz = new shenzhen
+
+  val obj1 = MongoDBObject("topic" -> "amenity", "subtopics" -> MongoDBList("a","b","c"))
+  val obj2 = MongoDBObject("topic" -> "park", "subtopics" -> MongoDBList("aa","bb","cc"))
+  val obj3 = MongoDBObject("topic" -> "history", "subtopics" -> MongoDBList("aaa","bbb","ccc"))
+  val list = MongoDBList(obj1, obj2, obj3)
+  topicCol.insert(MongoDBObject("topics" -> list))
 
   val PARKIMG = "http://www.tapeciarnia.pl/tapety/normalne/87536_park_laweczka_drogowskaz_grafika.jpg"
 
@@ -409,6 +417,7 @@ Bao'an, Shenzhen, Guangdong, Chiny
 
   sz.populate(col)
 
+  println("collections size: " + topicCol.size)
   println("**** DATABASE POPULATED ****")
 
 }

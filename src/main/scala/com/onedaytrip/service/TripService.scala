@@ -71,7 +71,7 @@ class TripService extends Actor {
   var originalSender :ActorRef = null
 
   override def receive: Actor.Receive = {
-    case GetTrips(req) =>   //entrance of trip service
+    case TripRequest(req) =>   //entrance of trip service
       originalSender = sender()
       log.debug("Receive GetTrip Request " + req)
       println("start ----> GetTrips ")

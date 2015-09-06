@@ -1,6 +1,7 @@
 package com.onedaytrip.dao
 
 import com.mongodb.casbah.Imports._
+import com.onedaytrip.config.Configuration
 import com.onedaytrip.db.Mongo
 import com.onedaytrip.domain._
 
@@ -9,13 +10,11 @@ import com.onedaytrip.domain._
  * Created by tomek on 6/7/15.
  */
 
+class TripDao extends Configuration {
 
-
-class TripDao {
-
-  val mongo = Mongo(MongoClient(), "poi")
+  val mongo = Mongo(MongoClient(), mongoDb.get)
   val db = mongo.getdb
-  val col = mongo.collection("common")
+  val col = mongo.collection(poiCollection.get)
   col.createIndex(MongoDBObject("loc" -> "2d"))
 
   def query(loc:Coordinate, range:Int, topics:List[Topic]): List[Attraction] = {
