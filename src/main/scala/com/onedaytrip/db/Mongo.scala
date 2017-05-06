@@ -25,8 +25,6 @@ trait DbBase {
 
   def collection(dbname:String, collection:String):MongoCollection = client(dbname)(collection)
 
-  //def drop = conn.dropDatabase()
-
   def findForKey(collectionObject:MongoCollection, key:String, value:String): MongoCursor =
     collectionObject.find(key $eq value)
 
