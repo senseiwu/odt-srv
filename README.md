@@ -1,29 +1,7 @@
-# README #
+## odt-srv
+REST service for trip-generator projects.
 
-This README would normally document whatever steps are necessary to get your application up and running.
-
-### What is this repository for? ###
-
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
-
-### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+## TODO
+1. Based on Spray - migrate to akka-http
+2. akka-cluster to integrate with other services like odt-trip-engine etc
+3. remove that part which is already extracted to odt-data
